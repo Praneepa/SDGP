@@ -93,3 +93,34 @@ passport.deserializeUser(async (id, done) => {
     done(err);
   }
 });
+
+// GitHub authentication routes
+app.get('/auth/github', passport.authenticate('github', { scope: ['repo'] }));
+app.get('/auth/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/protected');
+  }
+);
+
+// Google authentication routes
+app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/protected');
+  }
+);
+
+// Protected route that requires authentication
+app.get('/protected', ensureAuthenticated, (req, res) => {
+  res.send(`Hello, ${req.user.username}! You have successfully authenticated.`);
+});
+
+// Middleware to check if the user is authenticated
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect('/login');
+}
