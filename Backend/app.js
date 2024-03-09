@@ -294,3 +294,4 @@ app.get('/google-docs-data/:projectId', ensureAuthenticated, async (req, res) =>
     });
 
     //this should be continued
+    // Fetch data from Google Docs API for each student
