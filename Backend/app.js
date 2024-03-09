@@ -124,3 +124,173 @@ function ensureAuthenticated(req, res, next) {
   }
   res.redirect('/login');
 }
+
+// Route for creating a new project
+app.post('/projects', ensureAuthenticated, async (req, res) => {
+    try {
+      const { projectName, adminEmail, releaseDate, deadline, numMilestones } = req.body;
+  
+      // Check if the admin exists
+      const [adminRows] = await dbConnection.execute('SELECT * FROM Admin WHERE Ad_Uni_Email = ?', [adminEmail]);
+      if (adminRows.length === 0) {
+        return res.status(400).json({ error: 'Invalid admin email' });
+      }
+  
+      // Create the project
+      const [result] = await dbConnection.execute('INSERT INTO Project (Ad_Uni_Email, Project_release_date, Project_deadline, Num_Milestones) VALUES (?, ?, ?, ?)', [adminEmail, releaseDate, deadline, numMilestones]);
+      const projectId = result.insertId;
+  
+      // Associate the admin with the project
+      await dbConnection.execute('UPDATE Admin SET Project_Id = ? WHERE Ad_Uni_Email = ?', [projectId, adminEmail]);
+  
+      res.status(201).json({ message: 'Project created successfully', projectId });
+    } catch (err) {
+      console.error('Error creating project:', err);
+      res.status(500).json({ error: 'Failed to create project' });
+    }
+  });
+  
+  // Route for adding a student to a project
+  app.post('/projects/:projectId/students', ensureAuthenticated, async (req, res) => {
+    try {
+      const projectId = req.params.projectId;
+      const { studentEmail } = req.body;
+  
+      // Check if the student exists
+      const [studentRows] = await dbConnection.execute('SELECT * FROM Student WHERE Sl_Uni_Email = ?', [studentEmail]);
+      if (studentRows.length === 0) {
+        return res.status(400).json({ error: 'Invalid student email' });
+      }
+  
+      // Associate the student with the project
+      await dbConnection.execute('UPDATE Student SET Project_Id = ? WHERE Sl_Uni_Email = ?', [projectId, studentEmail]);
+  
+      res.status(200).json({ message: 'Student added to the project successfully' });
+    } catch (err) {
+      console.error('Error adding student to project:', err);
+      res.status(500).json({ error: 'Failed to add student to project' });
+    }
+  });
+  
+  // Route for getting project details
+  app.get('/projects/:projectId', ensureAuthenticated, async (req, res) => {
+    try {
+      const projectId = req.params.projectId;
+  
+      // Fetch project details
+      const [projectRows] = await dbConnection.execute('SELECT * FROM Project WHERE Project_Id = ?', [projectId]);
+      if (projectRows.length === 0) {
+        return res.status(404).json({ error: 'Project not found' });
+      }
+  
+      // Fetch associated students
+      const [studentRows] = await dbConnection.execute('SELECT Student_Fname, Student_Lname, Sl_Uni_Email FROM Student WHERE Project_Id = ?', [projectId]);
+  
+      const project = {
+        ...projectRows[0],
+        students: studentRows
+      };
+  
+      res.status(200).json(project);
+    } catch (err) {
+      console.error('Error fetching project details:', err);
+      res.status(500).json({ error: 'Failed to fetch project details' });
+    }
+  });
+
+
+
+  const fetch = require('node-fetch');
+
+// Route for fetching data from GitHub API
+app.get('/github-data/:projectId', ensureAuthenticated, async (req, res) => {
+  try {
+    const projectId = req.params.projectId;
+
+    // Fetch project details and associated students
+    const [projectRows] = await dbConnection.execute('SELECT * FROM Project WHERE Project_Id = ?', [projectId]);
+    const [studentRows] = await dbConnection.execute('SELECT Sl_Uni_Email FROM Student WHERE Project_Id = ?', [projectId]);
+
+    if (projectRows.length === 0 || studentRows.length === 0) {
+      return res.status(404).json({ error: 'Project or students not found' });
+    }
+
+    const project = projectRows[0];
+    const students = studentRows.map(row => row.Sl_Uni_Email);
+
+    // Fetch data from GitHub API for each student
+    const githubData = await Promise.all(students.map(async (studentEmail) => {
+      const [userRows] = await dbConnection.execute('SELECT * FROM User WHERE username = ?', [studentEmail]);
+      if (userRows.length === 0) {
+        return null;
+      }
+
+      const user = userRows[0];
+      const response = await fetch(`https://api.github.com/repos/${user.username}/issues`, {
+        headers: {
+          'Authorization': `Bearer ${user.accessToken}`
+        }
+      });
+
+      const data = await response.json();
+      const issueCount = data.length;
+
+      return {
+        studentEmail,
+        issueCount
+      };
+    }));
+
+    // Filter out null values (for students without GitHub accounts)
+    const filteredData = githubData.filter(data => data !== null);
+
+    // Update the Chart.js data
+    updateGitHubIssuesChart(filteredData);
+
+    res.json(filteredData);
+  } catch (error) {
+    console.error('Error fetching GitHub data:', error);
+    res.status(500).json({ error: 'Failed to fetch GitHub data' });
+  }
+});
+
+// Function to update the GitHub Issues Chart.js chart
+function updateGitHubIssuesChart(data) {
+  // Assuming you have a Chart.js instance created earlier
+  const labels = data.map(entry => entry.studentEmail);
+  const issuesClosed = data.map(entry => entry.issueCount);
+
+  myGitHubIssuesChart.data.labels = labels;
+  myGitHubIssuesChart.data.datasets[0].data = issuesClosed;
+  myGitHubIssuesChart.update();
+}
+
+
+const { google } = require('googleapis');
+
+// Route for fetching data from Google Docs API
+app.get('/google-docs-data/:projectId', ensureAuthenticated, async (req, res) => {
+  try {
+    const projectId = req.params.projectId;
+
+    // Fetch project details and associated students
+    const [projectRows] = await dbConnection.execute('SELECT * FROM Project WHERE Project_Id = ?', [projectId]);
+    const [studentRows] = await dbConnection.execute('SELECT Sl_Uni_Email FROM Student WHERE Project_Id = ?', [projectId]);
+
+    if (projectRows.length === 0 || studentRows.length === 0) {
+      return res.status(404).json({ error: 'Project or students not found' });
+    }
+
+    const project = projectRows[0];
+    const students = studentRows.map(row => row.Sl_Uni_Email);
+
+    // Authenticate with Google API
+    const auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email: 'your-service-account-email',
+        private_key: 'your-private-key'
+      },
+      scopes: ['https://www.googleapis.com/auth/documents.readonly']
+    });
+
+    //this should be continued
