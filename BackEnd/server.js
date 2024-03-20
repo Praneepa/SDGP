@@ -3,6 +3,9 @@ const path = require("path");
 
 const app = express();
 
+// Importing the database configuration from the 'db.js' file
+const dbconfig = require("./db");
+
 // Serving static files from the 'uploads' directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
