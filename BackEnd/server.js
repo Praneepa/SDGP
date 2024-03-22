@@ -3,6 +3,9 @@ const path = require("path");
 
 const app = express();
 
+// Importing the emailRoute module
+const emailRoute = require("./routes/emailRoute"); 
+
 // Importing the database configuration from the 'db.js' file
 const dbconfig = require("./db");
 
@@ -11,6 +14,9 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Parsing JSON request bodies
 app.use(express.json());
+
+// Using the emailRoute for '/api/email' requests
+app.use("/api/email", emailRoute);           
 
 const port = process.env.PORT || 5000;
 
