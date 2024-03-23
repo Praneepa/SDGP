@@ -15,12 +15,12 @@ const Navbar = ({ setActiveTab, isSuperAdmin }) => {
 
   const handleSignOut = () => {
     localStorage.removeItem("currentUser");
-    window.location.href = "/login";
+    window.location.href = "/admin-login";
   };
 
   return (
     <div className="navbar-container">
-      <a href="/home">
+      <a href="/admin-terminal">
         <img
           src={require("../../assets/strider_logo.png")}
           alt="Small Image"
@@ -33,6 +33,12 @@ const Navbar = ({ setActiveTab, isSuperAdmin }) => {
           <FontAwesomeIcon icon={faFolder} className="nav-icon" />
           <p>Projects</p>
         </div>
+        {isSuperAdmin && (
+          <div className="nav-item" onClick={() => handleTabClick("create")}>
+            <FontAwesomeIcon icon={faPlus} className="nav-icon" />
+            <p>Instructors</p>
+          </div>
+        )}
         <div className="nav-item" onClick={() => handleTabClick("profile")}>
           <FontAwesomeIcon icon={faUser} className="nav-icon" />
           <p>Profile</p>

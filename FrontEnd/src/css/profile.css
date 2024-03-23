@@ -10,25 +10,18 @@
   height: 160px;
   object-fit: cover;
   position: relative;
-  
-  
 }
 .acc-form-sec {
   display: flex;
   justify-content: center;
-   padding: 5% 10%;
-  
-  
+  padding: 5% 10%;
 }
 .form-coloums {
   display: flex;
-  
 }
 :where(.css-dev-only-do-not-override-12upa3x).ant-picker {
   padding: 0px 11px;
   width: 100%;
-  
-  
 }
 
 :where(.css-dev-only-do-not-override-12upa3x).ant-select-multiple
@@ -39,11 +32,10 @@
   flex-wrap: wrap;
   max-width: 80%;
   padding: 4px 11px;
- 
 }
 .user-submit-btn {
-  background-color: hsla(216, 63%, 57%, 0.8);
-  color:  rgb(236, 229, 229);
+  background-color: #4d4f86;
+  color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,15 +50,4 @@
   position: absolute;
   top: 84%;
   left: 84%;
-}
-
-:where(.css-dev-only-do-not-override-1uweeqc).ant-layout {
-  display: flex;
-  flex: auto;
-  flex-direction: column;
-  min-height: 0;
-  background: hsla(215, 39%, 83%, 0.721);
-  border-radius: 20px;
-  
-  
 }

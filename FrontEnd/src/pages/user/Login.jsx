@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios"; // Importing axios for making HTTP requests
+import axios from "axios";
 import {
   Layout,
   Space,
@@ -10,67 +10,61 @@ import {
   Input,
   Checkbox,
   notification,
-} from "antd"; // Importing components and utilities from Ant Design library
+} from "antd";
 
-import "../../css/login.css"; // Importing CSS file for styling
+import "../../css/login.css";
 
-const { Content } = Layout; // Destructuring Content component from Layout
+const { Content } = Layout;
 
 const Login = () => {
-  // State variables for email, password, loading state, and remember me checkbox
-  const [email, setEmail] = useState(""); // State for storing email input value
-  const [password, setPassword] = useState(""); // State for storing password input value
-  const [loading, setLoading] = useState(false); // State for indicating loading state during login
-  const [isRememberMe, setIsRememberMe] = useState(false); // State for storing remember me checkbox status
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isRememberMe, setIsRememberMe] = useState(false);
 
-  // Function to handle changes in the remember me checkbox
   const handleRememberMeChange = (e) => {
     setIsRememberMe(e.target.checked);
   };
 
-  // Function to display notification for login failure
   const handleLoginFailedNotification = (description) => {
     notification.error({
       message: "User Login Failed",
       description,
-      placement: "topLeft", // Notification placement on the screen
+      placement: "topLeft",
     });
   };
 
-  // Function to handle successful form submission
   const onFinish = (values) => {
     console.log("Success:", values);
   };
 
-  // Function to handle failed form submission
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  // Function to handle user login
   async function login() {
     const user = {
       email,
       password,
     };
     try {
-      setLoading(true); // Set loading state to true during login process
-      const { data, status } = await axios.post("/api/users/login", user); // Sending login request to the server
-      setLoading(false); // Set loading state to false after receiving response
+      setLoading(true);
+      const { data, status } = await axios.post("/api/users/login", user);
+      setLoading(false);
 
-      if (status === 200) { // If login is successful
-        localStorage.setItem("currentUser", JSON.stringify(data)); // Store user data in localStorage
-        if (data.isAdmin) { // Redirecting user based on admin status
-          window.location.href = "/admin/places"; // Redirecting to admin dashboard
+      if (status === 200) {
+        localStorage.setItem("currentUser", JSON.stringify(data));
+        if (data.isAdmin) {
+          window.location.href = "/admin/places";
         } else {
-          window.location.href = "/home"; // Redirecting to user dashboard
+          window.location.href = "/home";
         }
-      } else { // If login fails
-        handleLoginFailedNotification("Login failed. Please try again."); // Display login failure notification
+      } else {
+        handleLoginFailedNotification("Login failed. Please try again.");
       }
     } catch (error) {
-      setLoading(false); // Set loading state to false in case of error
-      if (error.response && error.response.status === 404) { // Handling specific error statuses
+      setLoading(false);
+      if (error.response && error.response.status === 404) {
         handleLoginFailedNotification("User not found.");
       } else if (error.response && error.response.status === 400) {
         handleLoginFailedNotification("Incorrect password.");
@@ -90,12 +84,10 @@ const Login = () => {
       <Layout>
         <Content>
           <Row className="main-col">
-            {/* Form section */}
             <Col className="form-section" span={12}>
-              <Col className="inner-form-section" span={12}>
+              <Col className="innter-form-section" span={12}>
                 <h1 className="text-align-left">Login</h1>
 
-                {/* Login Form */}
                 <Form
                   style={{
                     maxWidth: 600,
@@ -107,7 +99,6 @@ const Login = () => {
                   onFinishFailed={onFinishFailed}
                   autoComplete="off"
                 >
-                  {/* Email Input */}
                   <div className="m-8">
                     <label className="text-align-left m-8">Email</label>
                   </div>
@@ -119,6 +110,7 @@ const Login = () => {
                           required: true,
                           message: "Please input your email!",
                         },
+
                         {
                           pattern: /^[a-zA-Z0-9._%+-]+@iit\.ac\.lk$/,
                           message: "Please enter your student email address ",
@@ -131,8 +123,6 @@ const Login = () => {
                       />
                     </Form.Item>
                   </div>
-
-                  {/* Password Input */}
                   <div className="m-8">
                     <label className="text-align-left m-8">Password</label>
                   </div>
@@ -151,7 +141,6 @@ const Login = () => {
                     />
                   </Form.Item>
 
-                  {/* Login Button */}
                   <Form.Item
                     className="sign-up-btn-col"
                     wrapperCol={{
@@ -169,8 +158,6 @@ const Login = () => {
                     </Button>
                   </Form.Item>
                 </Form>
-
-                {/* Remember me checkbox and Forgot password link */}
                 <div className="forget-pw">
                   <Checkbox
                     checked={isRememberMe}
@@ -188,8 +175,6 @@ const Login = () => {
                   </Checkbox>{" "}
                   <a href="#">Forgot password</a>{" "}
                 </div>
-
-                {/* Link to Sign Up page */}
                 <div className="login-acc-have">
                   <p className="text-align-center">
                     Don't you have an account?{" "}
@@ -200,8 +185,6 @@ const Login = () => {
                 </div>
               </Col>
             </Col>
-
-            {/* Placeholder for login picture */}
             <Col
               className="login-pic"
               type="flex"

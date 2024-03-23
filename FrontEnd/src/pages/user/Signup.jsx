@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import axios from "axios"; // Importing axios for making HTTP requests
+import axios from "axios";
 import {
   Layout,
   Space,
@@ -11,31 +11,36 @@ import {
   Checkbox,
   Alert,
   notification,
-} from "antd"; // Importing components and utilities from Ant Design library
-import "../../css/login.css"; // Importing CSS file for styling
+} from "antd";
+import "../../css/login.css";
 
-const { Content } = Layout; // Destructuring Content component from Layout
+const { Content } = Layout;
 
 const SignUp = () => {
-  // State variables for form fields, loading state, error state, and privacy policy check
-  const [email, setEmail] = useState(""); // State for storing email input value
-  const [password, setPassword] = useState(""); // State for storing password input value
-  const [confirmPassword, setConfirmPassword] = useState(""); // State for storing confirm password input value
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const [loading, setLoading] = useState(false); // State for indicating loading state during registration
-  const [error, setError] = useState(false); // State for indicating registration error
-  const [warning, setWarning] = useState(false); // State for indicating password mismatch warning
-  const [isPrivacyPolicyChecked, setIsPrivacyPolicyChecked] = useState(false); // State for privacy policy checkbox
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [warning, setWarning] = useState(false);
+  const [isPrivacyPolicyChecked, setIsPrivacyPolicyChecked] = useState(false);
 
-  // Function to handle privacy policy checkbox change
+  const [provider, setProvider] = useState("");
+  const [profile, setProfile] = useState(null);
+
   const handlePrivacyPolicyChange = (e) => {
     setIsPrivacyPolicyChecked(e.target.checked);
   };
 
-  // Function to generate a random password
+  const onLoginStart = useCallback(() => {
+    alert("login start");
+  }, []);
+
   const generateRandomPassword = () => {
     const length = 10;
-    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const charset =
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let password = "";
 
     for (let i = 0; i < length; i++) {
@@ -46,30 +51,31 @@ const SignUp = () => {
     return password;
   };
 
-  // Function to handle form submission
   const register = async () => {
     if (password === confirmPassword) {
-      const user = { email, password }; // Creating user object
+      const user = {
+        email,
+        password,
+      };
       try {
-        setLoading(true); // Setting loading state to true
-        const result = await axios.post("/api/users/register", user); // Making HTTP POST request to register user
-        setLoading(false); // Setting loading state to false after registration
-        window.location.href = "/login"; // Redirecting to login page after successful registration
+        setLoading(true);
+        const result = await axios.post("/api/users/register", user);
+        setLoading(false);
+        window.location.href = "/login";
       } catch (error) {
         console.log(error);
-        setLoading(false); // Setting loading state to false in case of error
+        setLoading(false);
         if (
           error.response &&
           error.response.status === 400 &&
           error.response.data.error === "User with this email already exists."
         ) {
-          // If user already exists, show notification
+          // User already exists
           notification.info({
             message: "User Already Registered",
             description: "The user with this email is already registered.",
             placement: "topLeft",
             btn: (
-              // Button to redirect to login page in notification
               <button
                 className="notification-btn"
                 type="primary"
@@ -83,7 +89,6 @@ const SignUp = () => {
             ),
           });
         } else {
-          // If other error occurs, show error notification
           notification.error({
             message: "Registration Failed",
             description: "An error occurred while registering the user.",
@@ -91,17 +96,15 @@ const SignUp = () => {
         }
       }
     } else {
-      setWarning(true); // Setting warning state to true if passwords do not match
+      setWarning(true);
     }
   };
 
-  // Function to handle form submission success
   const onFinish = (values) => {
     console.log("Success:", values);
-    register(); // Calling register function on form submission
+    register();
   };
 
-  // Function to handle form submission failure
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -127,7 +130,9 @@ const SignUp = () => {
       return Promise.reject("Password must be at least 6 characters long.");
     }
     if (value && !/[A-Z]/.test(value)) {
-      return Promise.reject("Password must contain at least one capital letter.");
+      return Promise.reject(
+        "Password must contain at least one capital letter."
+      );
     }
     return Promise.resolve();
   };
@@ -142,7 +147,6 @@ const SignUp = () => {
       <Layout>
         <Content>
           <Row className="main-col">
-            {/* Form section */}
             <Col
               className="form-section"
               type="flex"
@@ -151,7 +155,7 @@ const SignUp = () => {
               span={12}
             >
               <Col
-                className="inner-form-section"
+                className="innter-form-section"
                 type="flex"
                 justify="center"
                 align=""
@@ -159,7 +163,6 @@ const SignUp = () => {
               >
                 <h2 className="text-align-left">Sign up</h2>
 
-                {/* SignUp Form */}
                 <Form
                   style={{
                     maxWidth: 600,
@@ -175,7 +178,6 @@ const SignUp = () => {
                     <label className="text-align-left m-8">Email</label>
                   </div>
                   <div>
-                    {/* Email Input */}
                     <Form.Item
                       name="Email"
                       rules={[
@@ -281,4 +283,5 @@ const SignUp = () => {
     </Space>
   );
 };
-export default SignUp; // Exporting the SignUp component as the default export of this module
+
+export default SignUp;
