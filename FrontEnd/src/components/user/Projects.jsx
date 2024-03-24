@@ -16,6 +16,7 @@ import {
   GithubOutlined,
   FileTextOutlined,
   ReloadOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
 import Chart from "chart.js/auto";
 
@@ -31,6 +32,9 @@ function Projects() {
   const [projectDetails, setProjectDetails] = useState(null);
   const [chartInstance, setChartInstance] = useState(null);
   const [chartInstance1, setChartInstance1] = useState(null);
+  const [isModalVisible2, setIsModalVisible2] = useState(false);
+  const [editGithubLink, setEditGithubLink] = useState("");
+  const [editDocumentLink, setEditDocumentLink] = useState("");
 
   const chartRef = useRef(null);
   const chartRef1 = useRef(null);
@@ -184,6 +188,34 @@ function Projects() {
     setIsModalVisible(true);
   };
 
+  const showModal2 = () => {
+    setEditGithubLink(projectDetails.github);
+    setEditDocumentLink(projectDetails.document);
+    setIsModalVisible2(true);
+  };
+
+  const handleCancel2 = () => {
+    setIsModalVisible2(false);
+  };
+  const handleSave = () => {
+    const updatedData = {
+      projectId: projectId,
+      github: editGithubLink,
+      document: editDocumentLink,
+    };
+
+    axios
+      .post("/api/projects/updateprojectdetails", updatedData)
+      .then((response) => {
+        console.log(response.data);
+        setIsModalVisible2(false);
+        fetchProjectDetails(projectId);
+      })
+      .catch((error) => {
+        console.error("Error updating project details:", error);
+      });
+  };
+
   const showModal1 = async (projectId) => {
     setProjectId(projectId);
     await fetchProjectDetails(projectId);
@@ -329,6 +361,28 @@ function Projects() {
       </Modal>
 
       <Modal
+        title="Edit Project Links"
+        visible={isModalVisible2}
+        onCancel={handleCancel2}
+        onOk={handleSave}
+      >
+        <Form layout="vertical">
+          <Form.Item label="GitHub Link">
+            <Input
+              value={editGithubLink}
+              onChange={(e) => setEditGithubLink(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item label="Document Link">
+            <Input
+              value={editDocumentLink}
+              onChange={(e) => setEditDocumentLink(e.target.value)}
+            />
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
         title="Project Details"
         visible={isModalVisible1}
         onCancel={handleCancel1}
@@ -357,6 +411,10 @@ function Projects() {
                 onClick={() => window.open(projectDetails.document, "_blank")}
               >
                 Document
+              </Button>
+
+              <Button type="link" icon={<EditOutlined />} onClick={showModal2}>
+                Edit
               </Button>
             </div>
             <br />
