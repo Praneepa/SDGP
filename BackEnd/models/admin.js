@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Defining the schema for the 'admins' collection
 const adminSchema = mongoose.Schema(
   {
     name: {
@@ -35,6 +36,7 @@ const adminSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    // Field indicating if the admin is a super admin, default is false
     isSuperAdmin: {
       type: Boolean,
       default: false,
