@@ -13,6 +13,7 @@ import {
 } from "antd";
 
 import "../../css/login.css";
+import { UserOutlined } from "@ant-design/icons";
 
 const { Content } = Layout;
 
@@ -34,6 +35,9 @@ const Login = () => {
     });
   };
 
+  const redirectToAdminLogin = () => {
+    window.location.href = "/admin-login";
+  };
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -193,6 +197,18 @@ const Login = () => {
               span={12}
             ></Col>
           </Row>
+          <Button
+            type="primary"
+            style={{
+              position: "fixed",
+              bottom: 20,
+              right: 20,
+            }}
+            onClick={redirectToAdminLogin}
+          >
+            <UserOutlined />
+            <span style={{ marginLeft: 5 }}>Instructor Login</span>
+          </Button>
         </Content>
       </Layout>
     </Space>
