@@ -1,3 +1,4 @@
+
 .project-layout {
   
   width: 100%;
@@ -16,14 +17,22 @@
  
  
  
+
+.pl-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
 }
 
 .project-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+
   margin-left: 0%;
   
+
 }
 
 .pl-pagination {
@@ -31,8 +40,6 @@
   justify-content: end;
   gap: 1rem;
   margin-top: 1rem;
-  
-  
 }
 
 .chart {
@@ -48,6 +55,7 @@
   color: red;
   font-size: large;
 }
+
 
 .delete-btn-project {
   margin-top: 2%;

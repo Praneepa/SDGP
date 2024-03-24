@@ -6,6 +6,7 @@ import Login from "./pages/user/Login";
 import AdminLogin from "./pages/admin/Login";
 import AdminTerminal from "./pages/admin/Terminal";
 import Home from "./pages/user/Home";
+
 import ForgetPassword from "./pages/user/ForgetPassword";
 
 const AdminRouteGuard = ({ children }) => {
@@ -36,7 +37,9 @@ function App() {
           <Route path="/" element={<Loading />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+
           <Route path="/forget-password" element={<ForgetPassword />} />
+
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route
             path="/admin-terminal"

@@ -8,7 +8,6 @@ import {
   Col,
   Row,
   DatePicker,
-  Modal,
   Tag,
   Icon,
   Select,
@@ -36,12 +35,6 @@ function Profile() {
   const [address, setAddress] = useState("");
   const { location } = window;
 
-
-  const [visible, setVisible] = useState(false);
-  const [currentPwd, setCurrentPwd] = useState("");
-  const [newPwd, setNewPwd] = useState("");
-  const [confirmNewPwd, setConfirmNewPwd] = useState("");
-
   const [pageLoaded, setPageLoaded] = useState(false);
 
   useEffect(() => {
@@ -49,7 +42,7 @@ function Profile() {
       try {
         const user = JSON.parse(localStorage.getItem("currentUser"));
         if (!user) throw new Error("User not found in local storage");
-        const response = await axios.post("/api/admins/getuserbyid", {
+        const response = await axios.post("/api/users/getuserbyid", {
           userid: user._id,
         });
         const data = response.data;
@@ -91,7 +84,7 @@ function Profile() {
 
     const _id = currentUser._id;
     try {
-      const res = await axios.patch("/api/admins/updateuser", {
+      const res = await axios.patch("/api/users/updateuser", {
         _id,
         name,
         subject,
@@ -215,68 +208,6 @@ function Profile() {
     setSubject(values.subject);
   };
 
-  const showModal = () => {
-    setCurrentPwd("");
-    setNewPwd("");
-    setConfirmNewPwd("");
-    setVisible(true);
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
-    setCurrentPwd("");
-    setNewPwd("");
-    setConfirmNewPwd("");
-    form.resetFields(["currentPwd", "newPwd", "confirmNewPwd"]);
-  };
-
-  const handleCurrentPwdChange = (e) => {
-    setCurrentPwd(e.target.value);
-  };
-
-  const handleNewPwdChange = (e) => {
-    setNewPwd(e.target.value);
-  };
-
-  const handleConfirmNewPwdChange = (e) => {
-    setConfirmNewPwd(e.target.value);
-  };
-
-  const handleSavePassword = async () => {
-    try {
-      if (newPwd !== confirmNewPwd) {
-        throw new Error("New password and confirm new password do not match");
-      }
-
-      const userId = user._id;
-      const response = await axios.post("/api/admins/changepassword", {
-        id: userId,
-        previousPwd: currentPwd,
-        newPwd: newPwd,
-      });
-      notification.success({
-        message: "Success",
-        description: response.data,
-      });
-      setVisible(false);
-      setCurrentPwd("");
-      setNewPwd("");
-      setConfirmNewPwd("");
-      form.resetFields(["currentPwd", "newPwd", "confirmNewPwd"]);
-
-      setTimeout(() => {
-        window.location.href = "/admin-terminal";
-      }, 1000);
-    } catch (error) {
-      console.error("An error occurred:", error);
-      notification.error({
-        message: "Error",
-        description:
-          error.response?.data?.message || "Failed to change password",
-      });
-    }
-  };
-
   return (
     <Layout>
       <div className="profile-cover">
@@ -293,9 +224,6 @@ function Profile() {
         >
           {editMode ? "Cancel" : "Edit Profile"}
         </Button>
-        <Button className="user-edit-btn1" onClick={showModal}>
-          Change Password
-        </Button>{" "}
       </div>
       <div className="acc-form-sec">
         <Col span={24}>
@@ -450,66 +378,6 @@ function Profile() {
           </Form>
         </Col>
       </div>
-
-
-      <Modal
-        title="Change Password"
-        visible={visible}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button key="save" type="primary" onClick={handleSavePassword}>
-            Save
-          </Button>,
-        ]}
-      >
-        <Form>
-          <div className="m-8">
-            <label className="text-align-left m-8">Current Password</label>
-          </div>
-          <Form.Item
-            name="currentPwd"
-            rules={[
-              {
-                required: true,
-                message: "Please enter your current password",
-              },
-            ]}
-          >
-            <Input.Password onChange={handleCurrentPwdChange} />
-          </Form.Item>
-          <div className="m-8">
-            <label className="text-align-left m-8">New Password</label>
-          </div>
-          <Form.Item
-            name="newPwd"
-            rules={[
-              {
-                required: true,
-                message: "Please enter your new password",
-              },
-            ]}
-          >
-            <Input.Password onChange={handleNewPwdChange} />
-          </Form.Item>
-          <div className="m-8">
-            <label className="text-align-left m-8">Confirm New Password</label>
-          </div>
-          <Form.Item
-            name="confirmNewPwd"
-            rules={[
-              {
-                required: true,
-                message: "Please confirm your new password",
-              },
-            ]}
-          >
-            <Input.Password onChange={handleConfirmNewPwdChange} />
-          </Form.Item>
-        </Form>
-      </Modal>
     </Layout>
   );
 }

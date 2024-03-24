@@ -19,6 +19,9 @@ import {
   Popconfirm,
 } from "antd";
 import axios from "axios";
+} from "antd";
+import axios from "axios";
+import { DeleteOutlined } from "@ant-design/icons";
 import Chart from "chart.js/auto";
 
 const { Option } = Select;
@@ -35,6 +38,7 @@ function Projects() {
 
   const [chartInstance, setChartInstance] = useState(null);
   const [chartInstance1, setChartInstance1] = useState(null);
+
 
   const [projectIdToDelete, setProjectIdToDelete] = useState(null);
 
@@ -187,6 +191,7 @@ function Projects() {
   const handleCancel = () => {
     setIsModalVisible(false);
     setProjectIdToDelete(null);
+
   };
 
   const handleCancel1 = () => {
@@ -202,7 +207,9 @@ function Projects() {
       );
       setCurrentProjectDetails(response.data.currentProjects);
       showModal();
+
       setProjectIdToDelete(projectId);
+
     } catch (error) {
       console.error("Error fetching current project details:", error);
     }
@@ -292,6 +299,7 @@ function Projects() {
       });
   };
 
+
   const handleDeleteConfirm = async () => {
     try {
       await axios.post("/api/projects/deletemain", { id: projectIdToDelete });
@@ -303,6 +311,7 @@ function Projects() {
       console.error("Error deleting project:", error);
     }
   };
+
 
   return (
     <div className="project-layout">
@@ -371,6 +380,7 @@ function Projects() {
             Cancel
           </Button>,
         ]}
+
       >
         <div>
           <h4>Current Project Details</h4>
@@ -386,7 +396,6 @@ function Projects() {
                 </Option>
               ))}
           </Select>
-
           {selectedEmail &&
             currentProjectDetails &&
             currentProjectDetails
