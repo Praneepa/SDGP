@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Defining the schema for the user model
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -38,6 +39,7 @@ const userSchema = mongoose.Schema(
     },
   },
   {
+    // Including timestamps for createdAt and updatedAt
     timestamps: true,
   }
 );
