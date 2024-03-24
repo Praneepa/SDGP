@@ -47,7 +47,7 @@ function Profile() {
       try {
         const user = JSON.parse(localStorage.getItem("currentUser"));
         if (!user) throw new Error("User not found in local storage");
-        const response = await axios.post("/api/admins/getuserbyid", {
+        const response = await axios.post("https://sdgp-chi.vercel.app/api/admins/getuserbyid", {
           userid: user._id,
         });
         const data = response.data;
@@ -89,7 +89,7 @@ function Profile() {
 
     const _id = currentUser._id;
     try {
-      const res = await axios.patch("/api/admins/updateuser", {
+      const res = await axios.patch("https://sdgp-chi.vercel.app/api/admins/updateuser", {
         _id,
         name,
         subject,
@@ -247,7 +247,7 @@ function Profile() {
       }
 
       const userId = user._id;
-      const response = await axios.post("/api/admins/changepassword", {
+      const response = await axios.post("https://sdgp-chi.vercel.app/api/admins/changepassword", {
         id: userId,
         previousPwd: currentPwd,
         newPwd: newPwd,

@@ -14,7 +14,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/admins/login", {
+      const response = await axios.post("https://sdgp-chi.vercel.app/api/admins/login", {
         email: email,
         password: password,
       });

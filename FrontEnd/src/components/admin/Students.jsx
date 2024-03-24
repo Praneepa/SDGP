@@ -15,7 +15,7 @@ function Students() {
 
   const fetchStudents = async () => {
     try {
-      const response = await Axios.get("/api/users/getStudents");
+      const response = await Axios.get("https://sdgp-chi.vercel.app/api/users/getStudents");
       setStudents(response.data);
     } catch (error) {
       console.error("Error fetching Students:", error);
@@ -24,7 +24,7 @@ function Students() {
 
   const handleViewProjects = async (studentEmail) => {
     try {
-      const response = await Axios.post("/api/users/getCurrentProjectByEmail", {
+      const response = await Axios.post("https://sdgp-chi.vercel.app/api/users/getCurrentProjectByEmail", {
         studentEmail: studentEmail,
       });
       const projectsData = response.data;

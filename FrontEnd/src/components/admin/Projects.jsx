@@ -44,7 +44,7 @@ function Projects() {
 
   const fetchProjects = async () => {
     try {
-      const response = await axios.get("/api/projects/getallprojects");
+      const response = await axios.get("https://sdgp-chi.vercel.app/api/projects/getallprojects");
       setProjects(response.data.projects);
     } catch (error) {
       console.error("Error fetching projects:", error);
@@ -198,7 +198,7 @@ function Projects() {
   const handleView = async (projectId) => {
     try {
       const response = await axios.get(
-        `/api/projects/getCurrentProjectByMain/${projectId}`
+        `https://sdgp-chi.vercel.app/api/projects/getCurrentProjectByMain/${projectId}`
       );
       setCurrentProjectDetails(response.data.currentProjects);
       showModal();
@@ -224,7 +224,7 @@ function Projects() {
       }
 
       await axios.post(
-        `/api/projects/updateissuehistory/${projectDetails._id}`,
+        `https://sdgp-chi.vercel.app/api/projects/updateissuehistory/${projectDetails._id}`,
         {
           projectId: projectDetails._id,
           repoLink: projectDetails.github,
@@ -249,7 +249,7 @@ function Projects() {
         return;
       }
 
-      await axios.post(`/api/projects/docinfo/${projectDetails._id}`, {
+      await axios.post(`https://sdgp-chi.vercel.app/api/projects/docinfo/${projectDetails._id}`, {
         projectId: projectDetails._id,
         docId: projectDetails.document,
       });
@@ -276,7 +276,7 @@ function Projects() {
         };
 
         axios
-          .post("/api/projects/createprojectmodal", projectData)
+          .post("https://sdgp-chi.vercel.app/api/projects/createprojectmodal", projectData)
           .then((response) => {
             console.log(response.data);
             setIsModalVisible(false);
@@ -294,7 +294,7 @@ function Projects() {
 
   const handleDeleteConfirm = async () => {
     try {
-      await axios.post("/api/projects/deletemain", { id: projectIdToDelete });
+      await axios.post("https://sdgp-chi.vercel.app/api/projects/deletemain", { id: projectIdToDelete });
 
       fetchProjects();
 

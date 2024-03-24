@@ -54,7 +54,7 @@ function Projects() {
     try {
       const userEmail = JSON.parse(localStorage.getItem("currentUser")).email;
       const response = await axios.get(
-        `/api/projects/getcurrentprojectsbyid?userEmail=${userEmail}`
+        `https://sdgp-chi.vercel.app/api/projects/getcurrentprojectsbyid?userEmail=${userEmail}`
       );
       setCurrentProjects(response.data.currentProjects);
     } catch (error) {
@@ -65,7 +65,7 @@ function Projects() {
   const fetchProjectDetails = async (projectId) => {
     try {
       const response = await axios.get(
-        `/api/projects/getprojectdetails/${projectId}`
+        `https://sdgp-chi.vercel.app/api/projects/getprojectdetails/${projectId}`
       );
       const projectDetails = response.data.projectDetails;
       setProjectDetails(projectDetails);
@@ -205,7 +205,7 @@ function Projects() {
     };
 
     axios
-      .post("/api/projects/updateprojectdetails", updatedData)
+      .post("https://sdgp-chi.vercel.app/api/projects/updateprojectdetails", updatedData)
       .then((response) => {
         console.log(response.data);
         setIsModalVisible2(false);
@@ -240,7 +240,7 @@ function Projects() {
 
   const handleOk = () => {
     axios
-      .post("/api/projects/setupproject", {
+      .post("https://sdgp-chi.vercel.app/api/projects/setupproject", {
         projectId,
         github: githubLink,
         document: documentLink,
@@ -259,7 +259,7 @@ function Projects() {
   const handleRefresh = () => {
     if (projectDetails) {
       axios
-        .post(`/api/projects/updateissuehistory/${projectDetails._id}`, {
+        .post(`https://sdgp-chi.vercel.app/api/projects/updateissuehistory/${projectDetails._id}`, {
           projectId: projectDetails._id,
           repoLink: projectDetails.github,
         })
@@ -276,7 +276,7 @@ function Projects() {
   const handleRefresh1 = () => {
     if (projectDetails) {
       axios
-        .post(`/api/projects/docinfo/${projectDetails._id}`, {
+        .post(`https://sdgp-chi.vercel.app/api/projects/docinfo/${projectDetails._id}`, {
           projectId: projectDetails._id,
           docId: projectDetails.document,
         })

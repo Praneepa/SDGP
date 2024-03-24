@@ -53,7 +53,7 @@ const Login = () => {
     };
     try {
       setLoading(true);
-      const { data, status } = await axios.post("/api/users/login", user);
+      const { data, status } = await axios.post("https://sdgp-chi.vercel.app/api/users/login", user);
       setLoading(false);
 
       if (status === 200) {

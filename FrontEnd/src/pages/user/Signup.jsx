@@ -59,7 +59,7 @@ const SignUp = () => {
       };
       try {
         setLoading(true);
-        const result = await axios.post("/api/users/register", user);
+        const result = await axios.post("https://sdgp-chi.vercel.app/api/users/register", user);
         setLoading(false);
         window.location.href = "/login";
       } catch (error) {

@@ -30,7 +30,7 @@ function Instructors() {
 
   const fetchInstructors = async () => {
     try {
-      const response = await Axios.get("/api/admins/getInstructors");
+      const response = await Axios.get("https://sdgp-chi.vercel.app/api/admins/getInstructors");
       setInstructors(response.data);
     } catch (error) {
       console.error("Error fetching instructors:", error);
@@ -104,7 +104,7 @@ function Instructors() {
 
   const handleDelete = async (record) => {
     try {
-      await Axios.delete(`/api/admins/delete/${record._id}`);
+      await Axios.delete(`https://sdgp-chi.vercel.app/api/admins/delete/${record._id}`);
       fetchInstructors();
     } catch (error) {
       console.error("Error deleting instructor:", error);
@@ -165,7 +165,7 @@ function Instructors() {
 
   const handleEditSubmit = async () => {
     try {
-      await Axios.post("/api/admins/update", {
+      await Axios.post("https://sdgp-chi.vercel.app/api/admins/update", {
         _id: selectedInstructor._id,
         ...formData,
       });
@@ -178,7 +178,7 @@ function Instructors() {
 
   const handleModalSubmit = async () => {
     try {
-      await Axios.post("/api/admins/create", formData);
+      await Axios.post("https://sdgp-chi.vercel.app/api/admins/create", formData);
       setAddModalVisible(false);
       fetchInstructors();
       setFormData({
