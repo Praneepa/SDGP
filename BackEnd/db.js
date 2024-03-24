@@ -1,5 +1,4 @@
 const { default: mongoose } = require("mongoose");
-
 // Setting strictQuery option to true to enforce strict query structure.
 mongoose.set("strictQuery", true);
 
@@ -26,25 +25,3 @@ connection.on("connected", () => {
 });
 
 module.exports = mongoose;
-
-mongoose.set("strictQuery", true);
-
-var mongoURL = "mongodb+srv://strider:strider123@strider.zfa7jt6.mongodb.net/";
-
-mongoose.connect(process.env.MONGODB_URI || mongoURL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-});
-
-var connection = mongoose.connection;
-
-connection.on("error", () => {
-  console.log("MongDB Connection Failed");
-});
-
-connection.on("connected", () => {
-  console.log("MongoDB Connection Successful");
-});
-
-module.exports = mongoose;
-
