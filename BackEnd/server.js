@@ -1,7 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
-const path = require("path");
+
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use(
 
 const dbconfig = require("./db");
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 app.use(express.json());
 
