@@ -9,7 +9,6 @@ import {
   Row,
   DatePicker,
   Modal,
-  Tag,
   Icon,
   Select,
   Space,
@@ -35,7 +34,6 @@ function Profile() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const { location } = window;
-
 
   const [visible, setVisible] = useState(false);
   const [currentPwd, setCurrentPwd] = useState("");
@@ -450,7 +448,6 @@ function Profile() {
           </Form>
         </Col>
       </div>
-
 
       <Modal
         title="Change Password"
