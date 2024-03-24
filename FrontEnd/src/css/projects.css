@@ -1,38 +1,13 @@
-
-.project-layout {
-  
-  width: 100%;
-}
-
-.pl-header {
-  display: flex;
-
- 
-  flex-direction: row;
-  margin-right: 0%;
-  justify-content: space-between; 
- 
-  color: rgb(107, 107, 110);
- padding-top: 20px;
- 
- 
- 
-
 .pl-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
 }
 
 .project-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-
-  margin-left: 0%;
-  
-
 }
 
 .pl-pagination {
@@ -55,8 +30,6 @@
   color: red;
   font-size: large;
 }
-
-
 .delete-btn-project {
   margin-top: 2%;
 }
