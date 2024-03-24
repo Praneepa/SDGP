@@ -8,11 +8,13 @@ const wordCount = require("word-count");
 
 const GITHUB_PERSONAL_ACCESS_TOKEN = "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";
 
+// Route for creating a new project
 router.post("/createproject", async (req, res) => {
   try {
     const { name, due_date, hours, subject, github, document, students } =
       req.body;
 
+    // Creating a new Project instance
     const newProject = new Project({
       name,
       due_date,
@@ -23,6 +25,7 @@ router.post("/createproject", async (req, res) => {
       students,
     });
 
+    // Saving the new project to the database
     const savedProject = await newProject.save();
 
     res.send("Project Created Successfully");
@@ -34,6 +37,7 @@ router.post("/createproject", async (req, res) => {
   }
 });
 
+// Route for fetching all projects
 router.get("/getallprojects", async (req, res) => {
   try {
     const projects = await Project.find();
@@ -47,6 +51,7 @@ router.get("/getallprojects", async (req, res) => {
   }
 });
 
+// Route for creating a new project via modal
 router.post("/createprojectmodal", async (req, res) => {
   try {
     const {
@@ -59,6 +64,8 @@ router.post("/createprojectmodal", async (req, res) => {
       instructor_name,
     } = req.body;
 
+
+    // Extracting student emails from the students array
     const studentEmails = students.map((student) => student.email);
 
     const newProject = new Project({
@@ -71,6 +78,7 @@ router.post("/createprojectmodal", async (req, res) => {
       instructor_name,
     });
 
+      // Saving the new project to the database
     const savedProject = await newProject.save();
 
     // Create current project for each student
@@ -99,6 +107,8 @@ router.post("/createprojectmodal", async (req, res) => {
   }
 });
 
+
+// Route for fetching current projects by main project ID
 router.get("/getCurrentProjectByMain/:projectId", async (req, res) => {
   try {
     const projectId = req.params.projectId;
