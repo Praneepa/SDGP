@@ -32,10 +32,13 @@ app.use("/api/admins", adminRoute);
 app.use("/api/projects", projectRoute);
 app.use("/api/email", emailRoute);
 
-const port = process.env.PORT || 5000;
+const port = 5000;
 
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static("client/build"));
-}
+
+app.get("/", (req, res) => {
+  res.send("<h1>Server Running SDGP</h1>");
+});
+
+
 
 app.listen(port, () => console.log("Node Server Started using Nodemon!"));
