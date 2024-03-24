@@ -6,6 +6,7 @@ import {
   faPlus,
   faUser,
   faSignOutAlt,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = ({ setActiveTab, isSuperAdmin }) => {
@@ -39,6 +40,10 @@ const Navbar = ({ setActiveTab, isSuperAdmin }) => {
             <p>Instructors</p>
           </div>
         )}
+        <div className="nav-item" onClick={() => handleTabClick("student")}>
+          <FontAwesomeIcon icon={faUsers} className="nav-icon" />
+          <p>Students</p>
+        </div>
         <div className="nav-item" onClick={() => handleTabClick("profile")}>
           <FontAwesomeIcon icon={faUser} className="nav-icon" />
           <p>Profile</p>

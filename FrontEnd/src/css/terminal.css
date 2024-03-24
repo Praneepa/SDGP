@@ -1,4 +1,38 @@
 .navbar-container {
+
+  width: 200px;
+  height: 100vh;
+  position: fixed;
+  padding: 0%;
+  margin: 0%;
+  border: 0;
+  top: 0;
+  left: 0;
+  background-color: hsla(216, 63%, 57%, 0.8);
+ 
+  font-family:  Arial,sans-serif;
+  color: rgb(236, 229, 229);
+  border-top-right-radius: 20px ;
+  border-bottom-right-radius: 20px ;
+  
+  
+}
+
+.small-image {
+  /* width: 240px;
+ height: 240px;
+ padding: 0;
+ margin-left: 27px;
+ margin-right: 0; */
+
+ width: 215px;
+ height: 240px;
+padding: 0;
+margin-left: 0;
+margin-right: 0;
+
+   
+
   width: 250px;
   height: 100vh;
   position: fixed;
@@ -15,10 +49,34 @@
   height: 240px;
   margin-left: 47px;
   margin-top: -50px;
+
 }
 
 .nav-items {
   margin-bottom: 20px;
+  cursor: pointer;
+}
+
+
+
+.nav-item {
+  display: flex;
+  width: 100%;
+  padding-left: 0%;
+  margin-left: 0%;
+  align-items: center;
+  padding-top: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #363535;  
+  background-color: rgb(197, 213, 235);
+  opacity: 0.5;
+ 
+
 }
 
 .nav-item {
@@ -31,10 +89,15 @@
 
 .nav-item:hover {
   color: inherit;
+
 }
 
 .nav-icon {
   margin-right: 20px;
+
+  margin-left: 20px;
+  padding-bottom: 7px;
+
 }
 
 .terms,
@@ -46,6 +109,9 @@
 }
 
 .tutors-profile-container {
+  margin-left: 200px;
+  padding: 2% 2% 0 2%;
   margin-left: 300px;
   padding: 2% 4% 0 2%;
+
 }

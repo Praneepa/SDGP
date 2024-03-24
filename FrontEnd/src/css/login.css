@@ -94,3 +94,9 @@ input {
 .login-acc-have {
   margin-top: 20px;
 }
+
+.resend-otp-btn {
+  margin-top: 20px;
+  text-align: center;
+}
+
