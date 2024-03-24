@@ -1,3 +1,4 @@
+
 // Importing the Mongoose library
 const mongoose = require("mongoose");
 
@@ -55,11 +56,58 @@ const currentProjectSchema = mongoose.Schema(
       required: true,
     },
     // Flag indicating if project setup is complete (default false)
+const mongoose = require("mongoose");
+
+const currentProjectSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: false,
+    },
+    due_date: {
+      type: String,
+      required: false,
+    },
+    hours: {
+      type: String,
+      required: false,
+    },
+    subject: {
+      type: String,
+      required: false,
+    },
+    instructor_name: {
+      type: String,
+      required: false,
+    },
+    instructor_email: {
+      type: String,
+      required: false,
+    },
+    github: {
+      type: String,
+      required: false,
+    },
+    document: {
+      type: String,
+      required: false,
+    },
+    mainProjectId: {
+      type: String,
+      required: false,
+    },
+    studentemail: {
+      type: String,
+      required: false,
+    },
+
     isSetup: {
       type: Boolean,
       default: false,
     },
+
     // Commit history of the project (array of objects with date and commit count)
+
     commitHistory: {
       type: [
         {
@@ -69,7 +117,10 @@ const currentProjectSchema = mongoose.Schema(
       ],
       default: [],
     },
+
     // Word count history of the project (array of objects with date/time and word count)
+
+
     wordCount: {
       type: [
         {
@@ -80,13 +131,19 @@ const currentProjectSchema = mongoose.Schema(
       default: [],
     },
   },
+
   // Enabling timestamps to automatically track creation and update times
+
+
   {
     timestamps: true,
   }
 );
 
+
 // Creating the Current Project model using the defined schema
+
+
 const currentProjectModel = mongoose.model(
   "currentProjects",
   currentProjectSchema

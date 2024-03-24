@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 // Defining the schema for the project model
 const projectSchema = mongoose.Schema(
   {
@@ -37,12 +38,46 @@ const projectSchema = mongoose.Schema(
     students: [],
   },
   // Enabling timestamps to automatically track creation and update times
+
+const projectSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: false,
+    },
+    due_date: {
+      type: String,
+      required: false,
+    },
+    hours: {
+      type: String,
+      required: false,
+    },
+    subject: {
+      type: String,
+      required: false,
+    },
+    instructor_name: {
+      type: String,
+      required: false,
+    },
+    instructor_email: {
+      type: String,
+      required: false,
+    },
+
+    students: [],
+  },
+
   {
     timestamps: true,
   }
 );
 
+
 // Creating the Project model using the defined schema
+
+
 const projectModel = mongoose.model("projects", projectSchema);
 
 module.exports = projectModel;
