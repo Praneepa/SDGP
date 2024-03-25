@@ -6,7 +6,7 @@ import SignOut from "../../components/admin/SignOut";
 import { useNavigate } from "react-router-dom";
 import "../../css/terminal.css";
 
-function home() {
+function Home() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("current");
 
@@ -26,4 +26,4 @@ function home() {
   );
 }
 
-export default home;
+export default Home;
